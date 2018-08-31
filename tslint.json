@@ -70,6 +70,10 @@
       "check-module",
       "check-separator",
       "check-type"
+    ],
+    "semicolon": [
+      true,
+      "never"
     ]
   },
   "rulesDirectory": []
