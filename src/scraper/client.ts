@@ -3,6 +3,7 @@ import { FundNotFoundError, InvalidSecIdError } from './exceptions'
 
 interface FundDetails {
   name: string
+  isin: string
 }
 
 interface ReturnDetail {
@@ -49,7 +50,7 @@ class Client {
 
       const details = response[0]
 
-      return { name: details.name }
+      return { name: details.name, isin: details.isin }
     } catch (e) {
       throw e
     }
