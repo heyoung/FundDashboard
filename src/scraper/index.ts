@@ -6,4 +6,5 @@ const client = new Client()
 
 SEC_IDS.forEach(async id => {
   await client.getDetails(id)
+  await client.getCumulativeReturn(id)
 })
