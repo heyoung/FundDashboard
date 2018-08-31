@@ -1,0 +1,30 @@
+{
+  "name": "syfunddashboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyoung/FundDashboard.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/heyoung/FundDashboard/issues"
+  },
+  "homepage": "https://github.com/heyoung/FundDashboard#readme",
+  "dependencies": {
+    "yarn": "^1.9.4"
+  },
+  "devDependencies": {
+    "@types/react": "^16.4.13",
+    "prettier": "^1.14.2",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.0.3"
+  }
+}
