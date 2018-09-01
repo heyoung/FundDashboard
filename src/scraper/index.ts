@@ -8,14 +8,22 @@ import { DataManager } from './data/data-manager'
   const client: Client = new Client()
   const manager: DataManager = await DataManager.build(DB_NAME)
 
+  const pendingWritePromises: Promise<any>[] = []
+
   SEC_IDS.forEach(async id => {
-    const detailsPromise = client.getDetails(id)
-    const returnsPromise = client.getCumulativeReturn(id)
+    pendingWritePromises.push(
+      client.getDetails(id).then(details => manager.saveDetails(details))
+    )
 
-    const details = await detailsPromise
-    const returns = await returnsPromise
-
-    manager.saveDetails(details)
-    manager.saveCumulativeReturn(returns)
+    pendingWritePromises.push(
+      client
+        .getCumulativeReturn(id)
+        .then(cumulativeReturn =>
+          manager.saveCumulativeReturn(cumulativeReturn)
+        )
+    )
   })
+
+  await Promise.all(pendingWritePromises)
+  await manager.close()
 })()
