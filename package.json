@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch-ts": "tsc -w",
+    "scraper": "ts-node ./src/scraper/index.ts",
     "server": "ts-node ./src/server/app.ts"
   },
   "repository": {
