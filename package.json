@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch-ts": "tsc -w"
+    "watch-ts": "tsc -w",
+    "server": "ts-node ./src/server/app.ts"
   },
   "repository": {
     "type": "git",
@@ -26,10 +27,13 @@
     "yarn": "^1.9.4"
   },
   "devDependencies": {
+    "@types/koa": "^2.0.46",
+    "@types/koa-router": "^7.0.31",
     "@types/mongodb": "^3.1.4",
     "@types/react": "^16.4.13",
     "@types/request": "^2.47.1",
     "@types/request-promise-native": "^1.0.15",
+    "nodemon": "^1.18.4",
     "prettier": "^1.14.2",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
