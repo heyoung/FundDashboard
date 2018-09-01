@@ -1,9 +1,16 @@
 import request from 'request-promise-native'
+import { Logger, loggers } from 'winston'
 import { FundDetails } from './data/details'
 import { CumulativeReturn } from './data/return'
-import { FundNotFoundError, InvalidSecIdError } from './exceptions'
+import { InvalidSecIdError } from './exceptions'
 
 class Client {
+  private logger: Logger
+
+  constructor() {
+    this.logger = loggers.get('Scraper')
+  }
+
   public async getCumulativeReturn(secId: string): Promise<CumulativeReturn> {
     if (!secId) {
       throw new InvalidSecIdError()
@@ -32,7 +39,8 @@ class Client {
       const response = await request.get(uri, { json: true })
 
       if (!response.length) {
-        throw new FundNotFoundError()
+        this.logger.error(`Fund details not found. SecId: ${secId}`)
+        return { name: '', isin: '', secId }
       }
 
       const details = response[0]
