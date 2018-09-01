@@ -1,9 +1,9 @@
-import { Client } from './client'
-import '../logging/scraper.config'
 import { FundDataManager } from '../data/data-manager'
-;(async function() {
+import '../logging/scraper.config'
+import { Client } from './client'
+; (async function x() {
   const SEC_IDS: string[] = ['F00000PI4A']
-  const DB_NAME: string = 'fund-dashboard'
+  const DB_NAME = 'fund-dashboard'
 
   const client: Client = new Client()
   const manager: FundDataManager = await FundDataManager.build(DB_NAME)

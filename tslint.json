@@ -3,7 +3,11 @@
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "jsRules": {},
   "rules": {
-    "no-unnecessary-type-assertion": true,
+    "only-arrow-functions": [
+      true,
+      "allow-declarations",
+      "allow-named-functions"
+    ],
     "array-type": [true, "array"],
     "ban-types": {
       "options": [
@@ -41,6 +45,7 @@
     "no-var-keyword": true,
     "object-literal-shorthand": true,
     "object-literal-surrounding-space": true,
+    "ordered-imports": true,
     "one-line": [true, "check-open-brace", "check-whitespace"],
     "prefer-const": true,
     "triple-equals": true,
@@ -71,10 +76,7 @@
       "check-separator",
       "check-type"
     ],
-    "semicolon": [
-      true,
-      "never"
-    ]
+    "semicolon": [true, "never"]
   },
   "rulesDirectory": []
 }

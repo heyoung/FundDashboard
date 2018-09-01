@@ -1,8 +1,3 @@
-interface ReturnDetail {
-  endDate: string
-  value: string
-}
-
 export interface FundData {
   secId: string
   isin: string

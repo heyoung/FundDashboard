@@ -1,9 +1,4 @@
-import {
-  Db,
-  InsertOneWriteOpResult,
-  MongoClient,
-  UpdateWriteOpResult
-} from 'mongodb'
+import { Db, MongoClient, UpdateWriteOpResult } from 'mongodb'
 import { Logger, loggers } from 'winston'
 import { FundData } from './fund-data'
 
