@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "scraper": "ts-node ./src/scraper/index.ts",
-    "server": "ts-node ./src/server/app.ts"
+    "server": "ts-node ./src/server/server.ts"
   },
   "repository": {
     "type": "git",
