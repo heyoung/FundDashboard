@@ -1,20 +1,7 @@
 import request from 'request-promise-native'
+import { FundDetails } from './data/details'
+import { CumulativeReturn } from './data/return'
 import { FundNotFoundError, InvalidSecIdError } from './exceptions'
-
-interface FundDetails {
-  name: string
-  isin: string
-}
-
-interface ReturnDetail {
-  endDate: string
-  value: string
-}
-
-interface CumulativeReturn {
-  id: string
-  returns: ReturnDetail[]
-}
 
 class Client {
   public async getCumulativeReturn(secId: string): Promise<CumulativeReturn> {
@@ -50,7 +37,7 @@ class Client {
 
       const details = response[0]
 
-      return { name: details.name, isin: details.isin }
+      return { name: details.Name, isin: details.Isin }
     } catch (e) {
       throw e
     }
