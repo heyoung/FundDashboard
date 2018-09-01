@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/heyoung/FundDashboard#readme",
   "dependencies": {
+    "koa": "^2.5.2",
+    "koa-router": "^7.4.0",
     "mongodb": "^3.1.4",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
