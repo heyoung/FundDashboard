@@ -4,6 +4,6 @@ interface ReturnDetail {
 }
 
 export interface CumulativeReturn {
-  id: string
+  secId: string
   returns: ReturnDetail[]
 }
