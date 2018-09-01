@@ -1,4 +1,5 @@
 import { Client } from './client'
+import '../logging/scraper.config'
 import { DataManager } from './data/data-manager'
 ;(async function() {
   const SEC_IDS: string[] = ['F00000PI4A']
@@ -14,7 +15,7 @@ import { DataManager } from './data/data-manager'
     const details = await detailsPromise
     const returns = await returnsPromise
 
-    await manager.saveDetails(details)
-    await manager.saveCumulativeReturn(returns)
+    manager.saveDetails(details)
+    manager.saveCumulativeReturn(returns)
   })
 })()

@@ -4,6 +4,7 @@ import {
   MongoClient,
   UpdateWriteOpResult,
 } from 'mongodb'
+import { Logger, loggers } from 'winston'
 import { FundDetails } from './details'
 import { CumulativeReturn } from './return'
 
@@ -16,17 +17,21 @@ class DataManager {
 
   private db: Db
   private client: MongoClient
+  private logger: Logger
 
   constructor(client: MongoClient, db: string) {
     this.db = client.db(db)
     this.client = client
+    this.logger = loggers.get('scraper')
   }
 
   public close(): Promise<void> {
+    this.logger.info('Closing mongo client connection')
     return this.client.close()
   }
 
   public saveDetails(details: FundDetails): Promise<UpdateWriteOpResult> {
+    this.logger.info(`Saving fund details: ${details.name}`)
     return this.db
       .collection('details')
       .updateOne({ isin: details.isin }, { $set: details }, { upsert: true })
@@ -35,9 +40,14 @@ class DataManager {
   public saveCumulativeReturn(
     cumReturn: CumulativeReturn
   ): Promise<UpdateWriteOpResult> {
+    this.logger.info(`Saving cumulative return: ${cumReturn.secId}`)
     return this.db
       .collection('returns')
-      .updateOne({ id: cumReturn.id }, { $set: cumReturn }, { upsert: true })
+      .updateOne(
+        { secId: cumReturn.secId },
+        { $set: cumReturn },
+        { upsert: true }
+      )
   }
 }
 

@@ -14,9 +14,9 @@ class Client {
     const response = await request.get(uri, { json: true })
 
     return {
-      id: response.TimeSeries.Security[0].Id,
       returns:
         response.TimeSeries.Security[0].CumulativeReturnSeries[0].HistoryDetail,
+      secId: response.TimeSeries.Security[0].Id,
     }
   }
 
@@ -37,7 +37,7 @@ class Client {
 
       const details = response[0]
 
-      return { name: details.Name, isin: details.Isin }
+      return { name: details.Name, isin: details.Isin, secId }
     } catch (e) {
       throw e
     }
