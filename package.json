@@ -18,8 +18,13 @@
   },
   "homepage": "https://github.com/heyoung/FundDashboard#readme",
   "dependencies": {
+    "@types/koa-static": "^4.0.0",
+    "@types/koa-views": "^2.0.3",
     "koa": "^2.5.2",
+    "koa-mount": "^3.0.0",
     "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.1.4",
     "mongodb": "^3.1.4",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
@@ -33,12 +38,19 @@
     "@types/react": "^16.4.13",
     "@types/request": "^2.47.1",
     "@types/request-promise-native": "^1.0.15",
+    "css-loader": "^1.0.0",
+    "node-sass": "^4.9.3",
     "nodemon": "^1.18.4",
     "prettier": "^1.14.2",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.0",
+    "ts-loader": "^4.5.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "tslint-react": "^3.6.0",
-    "typescript": "^3.0.3"
+    "typescript": "^3.0.3",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0"
   }
 }

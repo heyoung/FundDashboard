@@ -1,11 +1,16 @@
 import Koa from 'koa'
 import Router from 'koa-router'
+import serve from 'koa-static'
+import views from 'koa-views'
 
 const app = new Koa()
 const router = new Router()
 
-router.get('/', (ctx, next) => {
-  ctx.body = 'Hello'
+app.use(views(__dirname + '/views'))
+app.use(serve(__dirname + '/dist'))
+
+router.get('/', async (ctx, next) => {
+  await ctx.render('index')
 })
 
 app.use(router.routes()).use(router.allowedMethods())
