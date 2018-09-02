@@ -1,5 +1,4 @@
 import { FundDataManager } from '../data/data-manager'
-import '../logging/scraper.config'
 import { Client } from './client'
 ; (async function x() {
   const SEC_IDS: string[] = ['F00000PI4A']

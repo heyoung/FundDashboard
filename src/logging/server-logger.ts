@@ -1,10 +1,7 @@
 import chalk from 'chalk'
-import Router from 'koa-router'
-import { loggers } from 'winston'
+import { buildLogger } from './logger-factory'
 
-import '../logging/server.config'
-
-const logger = loggers.get('server')
+const logger = buildLogger('server')
 
 export default async (ctx: any, next: any) => {
   const start = +new Date()
