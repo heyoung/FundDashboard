@@ -2,7 +2,7 @@ const path = require('path')
 
 module.exports = {
   entry: {
-    app: path.resolve(__dirname, '..', 'src', 'app.ts')
+    dashboard: path.resolve(__dirname, '..', 'src', 'pages', 'dashboard.tsx')
   },
   devtool: 'cheap-module-eval-source-map',
   mode: 'development',

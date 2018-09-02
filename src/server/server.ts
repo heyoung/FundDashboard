@@ -13,7 +13,7 @@ app.use(serve(__dirname + '/dist'))
 app.use(logger)
 
 router.get('/', async (ctx, next) => {
-  await ctx.render('index')
+  await ctx.render('dashboard')
 })
 
 app.use(router.routes()).use(router.allowedMethods())
