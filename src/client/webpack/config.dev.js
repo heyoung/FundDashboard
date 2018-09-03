@@ -4,7 +4,7 @@ module.exports = {
   entry: {
     dashboard: path.resolve(__dirname, '..', 'src', 'pages', 'dashboard.tsx')
   },
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'inline-source-map',
   mode: 'development',
   module: {
     rules: [
