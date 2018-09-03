@@ -1,16 +1,14 @@
 import * as React from 'react'
+import { LineChart, Line, Brush } from 'recharts'
 
-export interface HelloProps {
-  compiler: string
-  framework: string
-}
-
-export class Hello extends React.Component<HelloProps, {}> {
+export class Dashboard extends React.Component {
   render() {
+    const data = [{ value: 0 }, { value: 1 }, { value: 2 }, { value: 1 }]
     return (
-      <h1>
-        Hello from {this.props.compiler} and {this.props.framework} !
-      </h1>
+      <LineChart width={400} height={400} data={data}>
+        <Line type="monotone" dataKey="value" stroke="#8884d8" />
+        <Brush />
+      </LineChart>
     )
   }
 }

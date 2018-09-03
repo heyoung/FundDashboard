@@ -3,9 +3,6 @@ import '../../style/dashboard.scss'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import { Hello } from '../components/dashboard'
+import { Dashboard } from '../components/dashboard'
 
-ReactDOM.render(
-  <Hello compiler="TypeScript" framework="React" />,
-  document.getElementById('app')
-)
+ReactDOM.render(<Dashboard />, document.getElementById('app'))
