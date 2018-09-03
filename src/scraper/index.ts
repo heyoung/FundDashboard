@@ -1,11 +1,10 @@
 import { FundDataManager } from '../data/data-manager'
 import { Client } from './client'
-; (async function x() {
+;(async function x() {
   const SEC_IDS: string[] = ['F00000PI4A']
-  const DB_NAME = 'fund-dashboard'
 
   const client: Client = new Client()
-  const manager: FundDataManager = await FundDataManager.build(DB_NAME)
+  const manager: FundDataManager = await FundDataManager.build()
 
   const pendingWritePromises: Promise<any>[] = []
 

@@ -1,14 +1,19 @@
 import { Db, MongoClient, UpdateWriteOpResult } from 'mongodb'
-import { Logger, loggers } from 'winston'
+import { Logger } from 'winston'
+import { buildLogger } from '../logging/logger-factory'
 import { FundData } from './fund-data'
+import config from './db.config'
 
 const MONGO_CONNECTION_URL = 'mongodb://localhost:27017/fund-dashboard'
 
 class FundDataManager {
-  public static async build(db: string): Promise<FundDataManager> {
+  public static async build(): Promise<FundDataManager> {
     return new FundDataManager(
-      await MongoClient.connect(MONGO_CONNECTION_URL),
-      db
+      await MongoClient.connect(
+        MONGO_CONNECTION_URL,
+        { useNewUrlParser: true }
+      ),
+      config.DB_NAME
     )
   }
 
@@ -19,12 +24,17 @@ class FundDataManager {
   constructor(client: MongoClient, db: string) {
     this.db = client.db(db)
     this.client = client
-    this.logger = loggers.get('scraper')
+    this.logger = buildLogger('FundDataManager')
   }
 
   public close(): Promise<void> {
     this.logger.info('Closing mongo client connection')
     return this.client.close()
+  }
+
+  public getByIsin(isin: string): Promise<FundData | null> {
+    this.logger.info(`Getting fund data for isin: ${isin}`)
+    return this.db.collection('funds').findOne({ isin })
   }
 
   public save(data: FundData): Promise<UpdateWriteOpResult> {
