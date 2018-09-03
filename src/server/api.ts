@@ -8,9 +8,11 @@ const router = new Router({
 ;(async () => {
   const manager: FundDataManager = await FundDataManager.build()
 
-  // Returns list of fund data. Uses query string if present
+  // Returns list of fund data.
+  // TODO: Use query string if present
   router.get('/funds', async ctx => {
-    ctx.body = ctx.request.query
+    const funds = await manager.getAll()
+    ctx.body = funds
   })
 
   // Returns data for a specific fund

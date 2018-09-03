@@ -37,6 +37,14 @@ class FundDataManager {
     return this.db.collection('funds').findOne({ isin })
   }
 
+  public getAll(): Promise<FundData[]> {
+    this.logger.info('Getting all fund data')
+    return this.db
+      .collection('funds')
+      .find()
+      .toArray()
+  }
+
   public save(data: FundData): Promise<UpdateWriteOpResult> {
     this.logger.info(`Saving fund data: ${data.name}`)
     return this.db
