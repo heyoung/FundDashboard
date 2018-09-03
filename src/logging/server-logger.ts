@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import { buildLogger } from './logger-factory'
 
-const logger = buildLogger('server')
+const logger = buildLogger('Server')
 
 export default async (ctx: any, next: any) => {
   const start = +new Date()

@@ -3,6 +3,7 @@ import Router from 'koa-router'
 import serve from 'koa-static'
 import views from 'koa-views'
 import logger from '../logging/server-logger'
+import apiRouter from './api'
 
 const app = new Koa()
 const router = new Router()
@@ -17,5 +18,6 @@ router.get('/', async (ctx, next) => {
 })
 
 app.use(router.routes()).use(router.allowedMethods())
+app.use(apiRouter.routes()).use(apiRouter.allowedMethods())
 
 app.listen(3000)
