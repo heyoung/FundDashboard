@@ -4,6 +4,7 @@ import {
   Legend,
   Line,
   LineChart,
+  ReferenceArea,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -74,6 +75,11 @@ export class Dashboard extends React.Component<{}, DashState> {
           <YAxis dataKey="return" unit="%" />
           <Legend verticalAlign="top" height={36} />
           <Tooltip content={TooltipContent} />
+          <ReferenceArea
+            x1={this.state.returns[0].date}
+            x2={this.state.returns[this.state.returns.length - 1].date}
+            y2={0}
+          />
         </LineChart>
       </ResponsiveContainer>
     )
