@@ -30,10 +30,10 @@ const TooltipContent: React.StatelessComponent<any> = props => {
 
   return (
     <div>
-      <div>{props.label}</div>
+      <div>{new Date(props.label).toLocaleDateString('en-UK')}</div>
       <div className={valueClasses}>
         {value}
-        {props.payload[0] && props.payload[0].unit}
+        {props.payload[0].unit}
       </div>
     </div>
   )
