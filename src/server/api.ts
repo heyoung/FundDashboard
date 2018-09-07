@@ -1,11 +1,11 @@
-import Router from 'koa-router'
 import Joi from 'joi'
+import Router from 'koa-router'
 import { FundDataManager } from '../data/data-manager'
 
 const router = new Router({
   prefix: '/api/v1'
 })
-;(async () => {
+; (async () => {
   const manager: FundDataManager = await FundDataManager.build()
 
   // Returns list of fund data.

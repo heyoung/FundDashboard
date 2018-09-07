@@ -1,16 +1,16 @@
 import * as React from 'react'
 import {
-  LineChart,
+  Legend,
   Line,
+  LineChart,
+  ReferenceArea,
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis,
-  Legend,
-  ReferenceArea
+  YAxis
 } from 'recharts'
-import Api from '../api'
 import { FundData } from '../../../data/fund-data'
+import Api from '../api'
 
 interface DashState {
   data: FundData | null
@@ -33,7 +33,7 @@ export class Dashboard extends React.Component<{}, DashState> {
     this.state = { data: null, returns: [] }
   }
 
-  async componentDidMount() {
+  public async componentDidMount() {
     const fundData: FundData = await Api.getByIsin('LU0862795506')
     const returns = fundData.returns.map(({ EndDate, Value }) => {
       return { date: EndDate, return: +Value }
@@ -41,7 +41,7 @@ export class Dashboard extends React.Component<{}, DashState> {
     this.setState({ data: fundData, returns })
   }
 
-  render() {
+  public render() {
     const name = this.state.data ? this.state.data.name : undefined
 
     let referenceArea = null

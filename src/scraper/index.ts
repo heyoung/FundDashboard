@@ -1,6 +1,6 @@
 import { FundDataManager } from '../data/data-manager'
 import { Client } from './client'
-;(async function x() {
+; (async function x() {
   const SEC_IDS: string[] = ['F00000PI4A']
 
   const client: Client = new Client()

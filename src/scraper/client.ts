@@ -3,6 +3,7 @@ import { Logger } from 'winston'
 import { FundData } from '../data/fund-data'
 import { buildLogger } from '../logging/logger-factory'
 import { InvalidSecIdError } from './exceptions'
+
 class Client {
   private logger: Logger
 

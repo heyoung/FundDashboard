@@ -1,8 +1,8 @@
 import { Db, MongoClient, UpdateWriteOpResult } from 'mongodb'
 import { Logger } from 'winston'
 import { buildLogger } from '../logging/logger-factory'
-import { FundData } from './fund-data'
 import config from './db.config'
+import { FundData } from './fund-data'
 
 const MONGO_CONNECTION_URL = 'mongodb://localhost:27017/fund-dashboard'
 
