@@ -3,7 +3,6 @@ import {
   Legend,
   Line,
   LineChart,
-  ReferenceArea,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -13,7 +12,7 @@ import { FundData } from '../../../data/fund-data'
 import Api from '../api'
 
 interface DashState {
-  data: FundData | null
+  data: FundData | undefined
   returns: { date: string; return: number }[]
 }
 
@@ -30,7 +29,7 @@ const TooltipContent: React.StatelessComponent<any> = props => (
 export class Dashboard extends React.Component<{}, DashState> {
   constructor(props: {}) {
     super(props)
-    this.state = { data: null, returns: [] }
+    this.state = { data: undefined, returns: [] }
   }
 
   public async componentDidMount() {
@@ -43,19 +42,6 @@ export class Dashboard extends React.Component<{}, DashState> {
 
   public render() {
     const name = this.state.data ? this.state.data.name : undefined
-
-    let referenceArea = null
-
-    if (this.state.returns.length) {
-      referenceArea = (
-        <ReferenceArea
-          x1={this.state.returns[0].date}
-          x2={this.state.returns[this.state.returns.length - 1].date}
-          y2={0}
-        />
-      )
-    }
-
     return (
       <ResponsiveContainer>
         <LineChart width={400} height={400} data={this.state.returns}>
@@ -71,7 +57,6 @@ export class Dashboard extends React.Component<{}, DashState> {
           <YAxis dataKey="return" unit="%" />
           <Legend verticalAlign="top" height={36} />
           <Tooltip content={TooltipContent} />
-          {referenceArea}
         </LineChart>
       </ResponsiveContainer>
     )
