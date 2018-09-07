@@ -22,7 +22,7 @@ interface DashState {
 const TooltipContent: React.StatelessComponent<any> = props => {
   if (!props.payload.length) return <div />
 
-  const value = props.payload[0].value
+  const value = props.payload[0].value.toFixed(2)
   const valueClasses = classNames({
     'neg-return': value < 0,
     'pos-return': value > 0
