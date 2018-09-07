@@ -61,27 +61,30 @@ export class Dashboard extends React.Component<{}, DashState> {
     }
 
     return (
-      <ResponsiveContainer>
-        <LineChart width={400} height={400} data={this.state.returns}>
-          <Line
-            name={name}
-            type="monotone"
-            dataKey="return"
-            unit="%"
-            stroke="#8884d8"
-            dot={false}
-          />
-          <XAxis dataKey="date" />
-          <YAxis dataKey="return" unit="%" />
-          <Legend verticalAlign="top" height={36} />
-          <Tooltip content={TooltipContent} />
-          <ReferenceArea
-            x1={this.state.returns[0].date}
-            x2={this.state.returns[this.state.returns.length - 1].date}
-            y2={0}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      <React.Fragment>
+        <div>Cumulative Return</div>
+        <ResponsiveContainer>
+          <LineChart width={400} height={400} data={this.state.returns}>
+            <Line
+              name={name}
+              type="monotone"
+              dataKey="return"
+              unit="%"
+              stroke="#8884d8"
+              dot={false}
+            />
+            <XAxis dataKey="date" />
+            <YAxis dataKey="return" unit="%" />
+            <Legend verticalAlign="bottom" height={36} />
+            <Tooltip content={TooltipContent} />
+            <ReferenceArea
+              x1={this.state.returns[0].date}
+              x2={this.state.returns[this.state.returns.length - 1].date}
+              y2={0}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </React.Fragment>
     )
   }
 }
