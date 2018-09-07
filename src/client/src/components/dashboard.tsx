@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import * as React from 'react'
 import {
   Legend,
@@ -17,15 +18,25 @@ interface DashState {
   loading: boolean
 }
 
-const TooltipContent: React.StatelessComponent<any> = props => (
-  <div>
-    <div>{props.label}</div>
+const TooltipContent: React.StatelessComponent<any> = props => {
+  if (!props.payload.length) return <div />
+
+  const value = props.payload[0].value
+  const valueClasses = classNames({
+    'neg-return': value < 0,
+    'pos-return': value > 0
+  })
+
+  return (
     <div>
-      {props.payload[0] && props.payload[0].value}
-      {props.payload[0] && props.payload[0].unit}
+      <div>{props.label}</div>
+      <div className={valueClasses}>
+        {value}
+        {props.payload[0] && props.payload[0].unit}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export class Dashboard extends React.Component<{}, DashState> {
   constructor(props: {}) {
