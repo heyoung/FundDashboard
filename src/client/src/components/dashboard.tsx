@@ -14,6 +14,7 @@ import Api from '../api'
 interface DashState {
   data: FundData | undefined
   returns: { date: string; return: number }[]
+  loading: boolean
 }
 
 const TooltipContent: React.StatelessComponent<any> = props => (
@@ -29,7 +30,7 @@ const TooltipContent: React.StatelessComponent<any> = props => (
 export class Dashboard extends React.Component<{}, DashState> {
   constructor(props: {}) {
     super(props)
-    this.state = { data: undefined, returns: [] }
+    this.state = { data: undefined, returns: [], loading: true }
   }
 
   public async componentDidMount() {
@@ -37,11 +38,16 @@ export class Dashboard extends React.Component<{}, DashState> {
     const returns = fundData.returns.map(({ EndDate, Value }) => {
       return { date: EndDate, return: +Value }
     })
-    this.setState({ data: fundData, returns })
+    this.setState({ data: fundData, returns, loading: false })
   }
 
   public render() {
     const name = this.state.data ? this.state.data.name : undefined
+
+    if (this.state.loading) {
+      return <div className="loadingspinner" />
+    }
+
     return (
       <ResponsiveContainer>
         <LineChart width={400} height={400} data={this.state.returns}>
