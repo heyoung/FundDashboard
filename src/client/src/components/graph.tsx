@@ -11,16 +11,81 @@ import {
   YAxis
 } from 'recharts'
 import { FundData } from '../../../data/fund-data'
-import Api from '../api'
 
-interface DashState {
-  data: FundData | undefined
-  returns: { date: string; return: number }[]
-  loading: boolean
+interface GraphState {
+  data: FundData[] | undefined
+  values: any[]
+}
+
+interface GraphProps {
+  data: FundData[]
+}
+
+export default class Graph extends React.Component<GraphProps, GraphState> {
+  constructor(props: GraphProps) {
+    super(props)
+
+    this.state = {
+      data: props.data,
+      values: this.getValues(props.data)
+    }
+  }
+
+  public componentWillReceiveProps(props: GraphProps) {
+    this.setState({ data: props.data, values: this.getValues(props.data) })
+  }
+
+  public render() {
+    const fundNames = this.state.data ? this.state.data.map(d => d.name) : []
+
+    if (!fundNames.length) return <NoGraphMessage />
+
+    return (
+      <React.Fragment>
+        <div className="graph__title">Cumulative Return</div>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart width={400} height={400} data={this.state.values}>
+            {fundNames.map(name => {
+              return (
+                <Line
+                  key={name}
+                  name={name}
+                  type="monotone"
+                  dataKey={name}
+                  unit="%"
+                  stroke="#8884d8"
+                  dot={false}
+                />
+              )
+            })}
+            <XAxis dataKey="date" />
+            <YAxis unit="%" />
+            <Legend verticalAlign="bottom" height={36} />
+            <Tooltip content={TooltipContent} />
+            {this.state.values.length && (
+              <ReferenceArea
+                x1={this.state.values[0].date}
+                x2={this.state.values[this.state.values.length - 1].date}
+                y2={0}
+              />
+            )}
+          </LineChart>
+        </ResponsiveContainer>
+      </React.Fragment>
+    )
+  }
+
+  private getValues(data: FundData[]): any[] {
+    if (!data.length) return []
+
+    return data[0].returns.map(({ EndDate, Value }) => {
+      return { date: EndDate, [data[0].name]: +Value }
+    })
+  }
 }
 
 const TooltipContent: React.StatelessComponent<any> = props => {
-  if (!props.payload.length) return <div />
+  if (!props.payload || !props.payload.length) return <div />
 
   const value = props.payload[0].value.toFixed(2)
   const valueClasses = classNames({
@@ -42,56 +107,6 @@ const TooltipContent: React.StatelessComponent<any> = props => {
   )
 }
 
-export default class Graph extends React.Component<{}, DashState> {
-  constructor(props: {}) {
-    super(props)
-    this.state = {
-      data: undefined,
-      loading: true,
-      returns: []
-    }
-  }
-
-  public async componentDidMount() {
-    const fundData: FundData = await Api.getByIsin('LU0862795506')
-    const returns = fundData.returns.map(({ EndDate, Value }) => {
-      return { date: EndDate, return: +Value }
-    })
-    this.setState({ data: fundData, returns, loading: false })
-  }
-
-  public render() {
-    const name = this.state.data ? this.state.data.name : undefined
-
-    if (this.state.loading) {
-      return <div className="loadingspinner" />
-    }
-
-    return (
-      <React.Fragment>
-        <div className="graph__title">Cumulative Return</div>
-        <ResponsiveContainer>
-          <LineChart width={400} height={400} data={this.state.returns}>
-            <Line
-              name={name}
-              type="monotone"
-              dataKey="return"
-              unit="%"
-              stroke="#8884d8"
-              dot={false}
-            />
-            <XAxis dataKey="date" />
-            <YAxis dataKey="return" unit="%" />
-            <Legend verticalAlign="bottom" height={36} />
-            <Tooltip content={TooltipContent} />
-            <ReferenceArea
-              x1={this.state.returns[0].date}
-              x2={this.state.returns[this.state.returns.length - 1].date}
-              y2={0}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </React.Fragment>
-    )
-  }
+const NoGraphMessage: React.StatelessComponent = () => {
+  return <div>No Fund Selected</div>
 }

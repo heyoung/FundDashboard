@@ -1,20 +1,37 @@
 import * as React from 'react'
 import Autosuggest from 'react-autosuggest'
 import { ChangeEvent, SuggestionsFetchRequestedParams } from 'react-autosuggest'
-import Api from '../api'
 
 interface SearchState {
+  fundNames: string[]
   suggestions: string[]
   searchValue: string
 }
 
-export default class Dashboard extends React.Component<{}, SearchState> {
-  constructor(props: {}) {
+interface SearchProps {
+  fundNames: string[]
+  onSearch: () => void
+}
+
+export default class Dashboard extends React.Component<
+  SearchProps,
+  SearchState
+> {
+  private onSearch: (value: string) => void
+
+  constructor(props: SearchProps) {
     super(props)
     this.state = {
+      fundNames: props.fundNames,
       searchValue: '',
       suggestions: []
     }
+
+    this.onSearch = props.onSearch
+  }
+
+  public componentWillReceiveProps(props: SearchProps) {
+    this.setState({ fundNames: props.fundNames })
   }
 
   public render() {
@@ -44,23 +61,25 @@ export default class Dashboard extends React.Component<{}, SearchState> {
 
   private onChange = (event: React.FormEvent<any>, params: ChangeEvent) => {
     this.setState({ searchValue: params.newValue })
+    this.onSearch(params.newValue)
   }
 
   private onSuggestionsFetchRequested = (
     request: SuggestionsFetchRequestedParams
   ): void => {
     if (!this.state.suggestions.length) {
-      this.loadSuggestions(request.value)
+      const inputValue = request.value.trim().toLowerCase()
+
+      const suggestions = this.state.fundNames.filter((suggestion: string) => {
+        return suggestion.toLocaleLowerCase().includes(inputValue)
+      })
+
+      this.setState({ suggestions })
     }
   }
 
   private onSuggestionsClearRequested = () => {
     this.setState({ suggestions: [] })
-  }
-
-  private async loadSuggestions(value: string): Promise<void> {
-    const names = await Api.getFundNames()
-    this.setState({ suggestions: names })
   }
 }
 
