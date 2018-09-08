@@ -24,7 +24,7 @@ const router = new Router({
       if (
         Joi.validate(
           ctx.request.query.name,
-          Joi.string().regex(/^[a-zA-Z0-9\s-]*$/)
+          Joi.string().regex(/^[a-zA-Z0-9\s-()]*$/)
         ).error
       ) {
         ctx.status = 400
