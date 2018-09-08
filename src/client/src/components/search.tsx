@@ -45,6 +45,7 @@ export default class Dashboard extends React.Component<
       <div className="search__container">
         <Autosuggest
           suggestions={this.state.suggestions}
+          shouldRenderSuggestions={this.shouldRenderSuggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
           getSuggestionValue={this.getSuggestionValue}
@@ -53,6 +54,10 @@ export default class Dashboard extends React.Component<
         />
       </div>
     )
+  }
+
+  private shouldRenderSuggestions(value: string) {
+    return value.trim().length > 3
   }
 
   private getSuggestionValue(value: string) {
@@ -67,15 +72,13 @@ export default class Dashboard extends React.Component<
   private onSuggestionsFetchRequested = (
     request: SuggestionsFetchRequestedParams
   ): void => {
-    if (!this.state.suggestions.length) {
-      const inputValue = request.value.trim().toLowerCase()
+    const inputValue = request.value.trim().toLowerCase()
 
-      const suggestions = this.state.fundNames.filter((suggestion: string) => {
-        return suggestion.toLocaleLowerCase().includes(inputValue)
-      })
+    const suggestions = this.state.fundNames.filter((suggestion: string) => {
+      return suggestion.toLocaleLowerCase().includes(inputValue)
+    })
 
-      this.setState({ suggestions })
-    }
+    this.setState({ suggestions })
   }
 
   private onSuggestionsClearRequested = () => {

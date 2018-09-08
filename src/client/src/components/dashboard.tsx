@@ -47,6 +47,8 @@ export class Dashboard extends React.Component<{}, DashboardState> {
   private getFundData = async (name: string) => {
     if (!name) return
 
+    if (this.state.funds.indexOf(name) < 0) return
+
     this.setState({ loading: true })
     const data = await Api.getByName(name)
 
