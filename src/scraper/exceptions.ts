@@ -1,4 +1,3 @@
-/* tslint:disable:max-classes-per-file */
-class InvalidSecIdError extends Error {}
+class FundDataCrawlerException extends Error {}
 
-export { InvalidSecIdError }
+export { FundDataCrawlerException }

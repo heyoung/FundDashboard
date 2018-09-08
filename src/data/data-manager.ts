@@ -59,7 +59,7 @@ class FundDataManager {
   }
 
   public save(data: FundData): Promise<UpdateWriteOpResult> {
-    logger.info(`Saving fund data: ${data.name}`)
+    logger.info(`Saving fund data for fund: ${data.name}`)
     return this.db
       .collection('funds')
       .updateOne({ isin: data.isin }, { $set: data }, { upsert: true })
