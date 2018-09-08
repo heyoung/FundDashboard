@@ -24,13 +24,16 @@ const TooltipContent: React.StatelessComponent<any> = props => {
 
   const value = props.payload[0].value.toFixed(2)
   const valueClasses = classNames({
+    'graph-tooltip__value': true,
     'neg-return': value < 0,
     'pos-return': value > 0
   })
 
   return (
-    <div>
-      <div>{new Date(props.label).toLocaleDateString('en-UK')}</div>
+    <div className="graph-tooltip">
+      <div className="graph-tooltip__date">
+        {new Date(props.label).toLocaleDateString('en-UK')}
+      </div>
       <div className={valueClasses}>
         {value}
         {props.payload[0].unit}

@@ -49,3 +49,15 @@ body {
   color: #50514f;
   font-size: 16pt;
 }
+
+.graph-tooltip {
+  border: solid;
+  border-width: 1px;
+  border-color: #e5e5e5;
+  background-color: #f2f2f2;
+  padding: 5px;
+}
+
+.graph-tooltip__date {
+  font-weight: bold;
+}
