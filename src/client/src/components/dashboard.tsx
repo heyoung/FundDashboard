@@ -32,26 +32,21 @@ export class Dashboard extends React.Component<{}, DashboardState> {
   }
 
   public render() {
-    if (this.state.loading) return <LoadingSpinner />
-
     return (
       <React.Fragment>
         <div className="d-flex justify-content-center search">
           <Search fundNames={this.state.funds} onSearch={this.onSearch} />
         </div>
         <div className="d-flex flex-column justify-content-center align-items-center graph">
-          <Graph data={this.state.graphData} />
+          <Graph data={this.state.graphData} isLoading={this.state.loading} />
         </div>
       </React.Fragment>
     )
   }
 
   private getFundData = async (name: string) => {
+    this.setState({ loading: true })
     const data = await Api.getByName(name)
-    this.setState({ graphData: [data] })
+    this.setState({ graphData: [data], loading: false })
   }
 }
-
-const LoadingSpinner: React.StatelessComponent = () => (
-  <div className="loadingspinner" />
-)

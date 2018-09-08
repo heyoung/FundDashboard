@@ -14,11 +14,13 @@ import { FundData } from '../../../data/fund-data'
 
 interface GraphState {
   data: FundData[] | undefined
+  isLoading: boolean
   values: any[]
 }
 
 interface GraphProps {
   data: FundData[]
+  isLoading: boolean
 }
 
 export default class Graph extends React.Component<GraphProps, GraphState> {
@@ -27,18 +29,21 @@ export default class Graph extends React.Component<GraphProps, GraphState> {
 
     this.state = {
       data: props.data,
+      isLoading: props.isLoading,
       values: this.getValues(props.data)
     }
   }
 
   public componentWillReceiveProps(props: GraphProps) {
-    this.setState({ data: props.data, values: this.getValues(props.data) })
+    this.setState({ ...props, values: this.getValues(props.data) })
   }
 
   public render() {
     const fundNames = this.state.data ? this.state.data.map(d => d.name) : []
 
-    if (!fundNames.length) return <NoGraphMessage />
+    if (!fundNames.length && !this.state.isLoading) return <NoGraphMessage />
+
+    if (this.state.isLoading) return <LoadingSpinner />
 
     return (
       <React.Fragment>
@@ -110,3 +115,7 @@ const TooltipContent: React.StatelessComponent<any> = props => {
 const NoGraphMessage: React.StatelessComponent = () => {
   return <div>No Fund Selected</div>
 }
+
+const LoadingSpinner: React.StatelessComponent = () => (
+  <div className="loadingspinner" />
+)
