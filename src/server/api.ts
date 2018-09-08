@@ -8,6 +8,11 @@ const router = new Router({
 ; (async () => {
   const manager: FundDataManager = await FundDataManager.build()
 
+  router.get('/funds/names', async ctx => {
+    const names = await manager.getAllNames()
+    ctx.body = names
+  })
+
   // Returns list of fund data.
   // TODO: Use query string if present
   router.get('/funds', async ctx => {
