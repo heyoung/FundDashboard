@@ -15,7 +15,12 @@ const router = new Router({
 
   // Returns list of fund data.
   router.get('/funds', async ctx => {
-    if (ctx.request.query.name) {
+    if (Object.keys(ctx.request.query).indexOf('name') > -1) {
+      if (!ctx.request.query.name) {
+        ctx.body = {}
+        return
+      }
+
       if (
         Joi.validate(
           ctx.request.query.name,

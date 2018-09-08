@@ -13,7 +13,7 @@ import {
 import { FundData } from '../../../data/fund-data'
 
 interface GraphState {
-  data: FundData[] | undefined
+  data: FundData[]
   isLoading: boolean
   values: any[]
 }
@@ -38,8 +38,22 @@ export default class Graph extends React.Component<GraphProps, GraphState> {
     this.setState({ ...props, values: this.getValues(props.data) })
   }
 
+  public shouldComponentUpdate(nextProps: GraphProps, nextState: GraphState) {
+    const graphedFunds = this.state.data.map(d => d.name)
+
+    if (nextProps.isLoading !== this.state.isLoading) return true
+
+    if (!graphedFunds.length && nextProps.data.length) return true
+
+    nextProps.data.forEach(data => {
+      if (graphedFunds.indexOf(data.name) < 0) return true
+    })
+
+    return false
+  }
+
   public render() {
-    const fundNames = this.state.data ? this.state.data.map(d => d.name) : []
+    const fundNames: string[] = this.state.data.map(d => d.name)
 
     if (!fundNames.length && !this.state.isLoading) return <NoGraphMessage />
 

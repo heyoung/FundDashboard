@@ -45,8 +45,15 @@ export class Dashboard extends React.Component<{}, DashboardState> {
   }
 
   private getFundData = async (name: string) => {
+    if (!name) return
+
     this.setState({ loading: true })
     const data = await Api.getByName(name)
-    this.setState({ graphData: [data], loading: false })
+
+    if (Object.keys(data).length) {
+      this.setState({ graphData: [data], loading: false })
+    } else {
+      this.setState({ loading: false })
+    }
   }
 }
