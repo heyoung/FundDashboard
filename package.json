@@ -45,6 +45,7 @@
     "@types/koa-router": "^7.0.31",
     "@types/mongodb": "^3.1.4",
     "@types/react": "^16.4.13",
+    "@types/react-autosuggest": "^9.3.5",
     "@types/react-dom": "^16.0.7",
     "@types/recharts": "^1.0.28",
     "@types/request": "^2.47.1",

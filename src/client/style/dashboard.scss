@@ -1,4 +1,5 @@
 @import 'spinner.scss';
+@import 'lib/react-autosuggest.scss';
 @import '~bootstrap/scss/bootstrap';
 
 html,
@@ -18,4 +19,21 @@ body {
 
 .pos-return {
   color: green;
+}
+
+.react-autosuggest__input {
+  width: 100%;
+  height: 3rem;
+}
+
+.react-autosuggest__suggestions-container--open {
+  width: 100%;
+}
+
+.search {
+  background-color: #616161;
+}
+
+.search__container {
+  margin: 10px;
 }

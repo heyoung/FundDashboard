@@ -8,6 +8,6 @@ export default {
 
   getFundNames: async (): Promise<string[]> => {
     const response = await fetch('/api/v1/funds/names')
-    return await response.json()
+    return (await response.json()).map((val: any) => val.name)
   }
 }
