@@ -28,7 +28,13 @@ const router = new Router({
       }
 
       const fund = await manager.getByName(ctx.request.query.name)
-      ctx.body = fund
+
+      if (!fund) {
+        ctx.body = {}
+      } else {
+        ctx.body = fund
+      }
+
       return
     }
 
