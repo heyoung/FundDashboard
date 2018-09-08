@@ -1,6 +1,6 @@
 export interface FundData {
-  secId: string
-  isin: string
   name: string
+  isin: string
+  secId: string
   returns: { EndDate: string; Value: string }[]
 }

@@ -14,8 +14,24 @@ const router = new Router({
   })
 
   // Returns list of fund data.
-  // TODO: Use query string if present
   router.get('/funds', async ctx => {
+    if (ctx.request.query.name) {
+      if (
+        Joi.validate(
+          ctx.request.query.name,
+          Joi.string().regex(/^[a-zA-Z0-9\s-]*$/)
+        ).error
+      ) {
+        ctx.status = 400
+        ctx.body = 'Invalid query name'
+        return
+      }
+
+      const fund = await manager.getByName(ctx.request.query.name)
+      ctx.body = fund
+      return
+    }
+
     const funds = await manager.getAll()
     ctx.body = funds
   })

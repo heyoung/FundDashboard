@@ -45,6 +45,11 @@ class FundDataManager {
     return this.db.collection('funds').findOne({ isin })
   }
 
+  public getByName(name: string): Promise<FundData | null> {
+    logger.info(`Getting fund data for name: ${name}`)
+    return this.db.collection('funds').findOne({ name })
+  }
+
   public getAll(): Promise<FundData[]> {
     logger.info('Getting all fund data')
     return this.db
