@@ -5,14 +5,14 @@ import Search from './search'
 export class Dashboard extends React.Component<{}, {}> {
   public render() {
     return (
-      <div className="container-fluid">
-        <div className="row justify-content-center search">
-          <div className="col-8">
-            <Search />
-          </div>
+      <React.Fragment>
+        <div className="d-flex justify-content-center search">
+          <Search />
         </div>
-        <Graph />
-      </div>
+        <div className="d-flex flex-column justify-content-center align-items-center graph">
+          <Graph />
+        </div>
+      </React.Fragment>
     )
   }
 }

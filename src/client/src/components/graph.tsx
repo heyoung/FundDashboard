@@ -66,7 +66,7 @@ export default class Graph extends React.Component<{}, DashState> {
 
     return (
       <React.Fragment>
-        <div>Cumulative Return</div>
+        <div className="graph__title">Cumulative Return</div>
         <ResponsiveContainer>
           <LineChart width={400} height={400} data={this.state.returns}>
             <Line

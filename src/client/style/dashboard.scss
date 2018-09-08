@@ -31,9 +31,21 @@ body {
 }
 
 .search {
-  background-color: #616161;
+  background-color: #247ba0;
+  height: 5vh;
 }
 
 .search__container {
   margin: 10px;
+  width: 50vw;
+}
+
+.graph {
+  height: 80vh;
+  padding: 10px;
+}
+
+.graph__title {
+  color: #50514f;
+  font-size: 16pt;
 }
