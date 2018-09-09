@@ -23,7 +23,8 @@ body {
 
 .react-autosuggest__input {
   width: 100%;
-  height: 3rem;
+  height: 4vh;
+  font-size: 1.5rem;
 }
 
 .react-autosuggest__suggestions-container--open {
@@ -32,12 +33,15 @@ body {
 
 .header {
   background-color: #247ba0;
-  height: 5vh;
+  height: 6vh;
+  align-items: center;
 }
 
 .body {
   height: 80vh;
   padding: 10px;
+  margin-left: 10vw;
+  margin-right: 10vw;
 }
 
 .search {
@@ -55,6 +59,9 @@ body {
 .graph {
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .graph__title {
@@ -75,6 +82,7 @@ body {
 }
 
 .funddata__container {
+  padding: 20px;
   background-color: #f7f7f7;
 }
 
