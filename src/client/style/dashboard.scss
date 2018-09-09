@@ -30,19 +30,31 @@ body {
   width: 100%;
 }
 
-.search {
+.header {
   background-color: #247ba0;
   height: 5vh;
 }
 
-.search__container {
+.body {
+  height: 80vh;
+  padding: 10px;
+}
+
+.search {
   margin: 10px;
   width: 50vw;
 }
 
+.placeholder {
+  height: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .graph {
-  height: 80vh;
-  padding: 10px;
+  height: 100%;
+  width: 100%;
 }
 
 .graph__title {
@@ -60,4 +72,12 @@ body {
 
 .graph-tooltip__date {
   font-weight: bold;
+}
+
+.funddata__container {
+  background-color: #f7f7f7;
+}
+
+.funddata__title {
+  font-size: 2.5rem;
 }

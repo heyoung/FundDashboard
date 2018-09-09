@@ -55,12 +55,17 @@ export default class Graph extends React.Component<GraphProps, GraphState> {
   public render() {
     const fundNames: string[] = this.state.data.map(d => d.name)
 
-    if (!fundNames.length && !this.state.isLoading) return <NoGraphMessage />
-
-    if (this.state.isLoading) return <LoadingSpinner />
+    if (!fundNames.length || this.state.isLoading) {
+      return (
+        <div className="placeholder">
+          {!fundNames.length && !this.state.isLoading && <NoGraphMessage />}
+          {this.state.isLoading && <LoadingSpinner />}
+        </div>
+      )
+    }
 
     return (
-      <React.Fragment>
+      <div className="graph">
         <div className="graph__title">Cumulative Return</div>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart width={400} height={400} data={this.state.values}>
@@ -90,7 +95,7 @@ export default class Graph extends React.Component<GraphProps, GraphState> {
             )}
           </LineChart>
         </ResponsiveContainer>
-      </React.Fragment>
+      </div>
     )
   }
 
@@ -126,9 +131,9 @@ const TooltipContent: React.StatelessComponent<any> = props => {
   )
 }
 
-const NoGraphMessage: React.StatelessComponent = () => {
-  return <div>No Fund Selected</div>
-}
+const NoGraphMessage: React.StatelessComponent = () => (
+  <div> No Fund Selected </div>
+)
 
 const LoadingSpinner: React.StatelessComponent = () => (
   <div className="loadingspinner" />

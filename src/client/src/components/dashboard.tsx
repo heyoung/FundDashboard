@@ -34,10 +34,14 @@ export class Dashboard extends React.Component<{}, DashboardState> {
   public render() {
     return (
       <React.Fragment>
-        <div className="d-flex justify-content-center search">
+        <div className="d-flex justify-content-center header">
           <Search fundNames={this.state.funds} onSearch={this.onSearch} />
         </div>
-        <div className="d-flex flex-column justify-content-center align-items-center graph">
+        <div className="d-flex flex-column body">
+          <FundDetails
+            fund={this.state.graphData[0]}
+            loading={this.state.loading}
+          />
           <Graph data={this.state.graphData} isLoading={this.state.loading} />
         </div>
       </React.Fragment>
@@ -58,4 +62,21 @@ export class Dashboard extends React.Component<{}, DashboardState> {
       this.setState({ loading: false })
     }
   }
+}
+
+const FundDetails: React.StatelessComponent<{
+  fund: FundData
+  loading: boolean
+}> = ({ fund, loading }) => {
+  if (!fund || loading) return null
+
+  return (
+    <div className="funddata">
+      <div className="funddata__container">
+        <div className="funddata__title">{fund.name}</div>
+        <div className="funddata__isin">ISIN: {fund.isin}</div>
+      </div>
+      <hr className="funddata__rule" />
+    </div>
+  )
 }

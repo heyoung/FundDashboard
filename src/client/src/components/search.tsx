@@ -54,7 +54,7 @@ export default class Dashboard extends React.Component<
     }
 
     return (
-      <div className="search__container">
+      <div className="search">
         <Autosuggest
           suggestions={this.state.suggestions}
           shouldRenderSuggestions={this.shouldRenderSuggestions}
