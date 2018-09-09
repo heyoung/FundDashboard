@@ -9,6 +9,7 @@ interface DashboardState {
   graphData: FundData[] | []
   funds: string[]
   loading: boolean
+  selectedFundData?: FundData
 }
 
 export class Dashboard extends React.Component<{}, DashboardState> {
@@ -53,11 +54,22 @@ export class Dashboard extends React.Component<{}, DashboardState> {
 
     if (this.state.funds.indexOf(name) < 0) return
 
+    if (
+      this.state.selectedFundData &&
+      this.state.selectedFundData.name === name
+    ) {
+      return
+    }
+
     this.setState({ loading: true })
     const data = await Api.getByName(name)
 
     if (Object.keys(data).length) {
-      this.setState({ graphData: [data], loading: false })
+      this.setState({
+        graphData: [data],
+        loading: false,
+        selectedFundData: data
+      })
     } else {
       this.setState({ loading: false })
     }
