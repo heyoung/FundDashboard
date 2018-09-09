@@ -1,3 +1,5 @@
+import Fuse from 'fuse.js'
+import debounce from 'lodash.debounce'
 import * as React from 'react'
 import Autosuggest from 'react-autosuggest'
 import { ChangeEvent, SuggestionsFetchRequestedParams } from 'react-autosuggest'
@@ -13,11 +15,14 @@ interface SearchProps {
   onSearch: () => void
 }
 
+const MAX_NUM_SUGGESTIONS = 10
+
 export default class Dashboard extends React.Component<
   SearchProps,
   SearchState
 > {
   private onSearch: (value: string) => void
+  private suggestionProvider: (suggestion: string) => string[]
 
   constructor(props: SearchProps) {
     super(props)
@@ -28,9 +33,16 @@ export default class Dashboard extends React.Component<
     }
 
     this.onSearch = props.onSearch
+
+    this.onSuggestionsFetchRequested = debounce(
+      this.onSuggestionsFetchRequested,
+      1000
+    )
+    this.suggestionProvider = suggestionProvider(this.state.fundNames)
   }
 
   public componentWillReceiveProps(props: SearchProps) {
+    this.suggestionProvider = suggestionProvider(props.fundNames)
     this.setState({ fundNames: props.fundNames })
   }
 
@@ -57,7 +69,7 @@ export default class Dashboard extends React.Component<
   }
 
   private shouldRenderSuggestions(value: string) {
-    return value.trim().length > 3
+    return value.trim().length >= 2
   }
 
   private getSuggestionValue(value: string) {
@@ -72,11 +84,8 @@ export default class Dashboard extends React.Component<
   private onSuggestionsFetchRequested = (
     request: SuggestionsFetchRequestedParams
   ): void => {
-    const inputValue = request.value.trim().toLowerCase()
-
-    const suggestions = this.state.fundNames.filter((suggestion: string) => {
-      return suggestion.toLocaleLowerCase().includes(inputValue)
-    })
+    const inputValue = request.value.trim()
+    const suggestions = this.suggestionProvider(inputValue)
 
     this.setState({ suggestions })
   }
@@ -87,3 +96,35 @@ export default class Dashboard extends React.Component<
 }
 
 const Suggestion = (suggestion: string) => <span>{suggestion}</span>
+
+function suggestionProvider(candidates: string[]) {
+  const options = {
+    distance: 50,
+    findAllMatches: false,
+    includeMatches: true,
+    includeScore: true,
+    location: 0,
+    maxPatternLength: 32,
+    minMatchCharLength: 1,
+    shouldSort: true,
+    threshold: 0.1,
+    tokenize: true
+  }
+
+  const fuse = new Fuse(candidates, options)
+
+  return (suggestion: string) => {
+    const suggestions: string[] = []
+    const results: any[] = fuse.search(suggestion)
+
+    if (!results.length) return suggestions
+
+    while (results.length && suggestions.length < MAX_NUM_SUGGESTIONS) {
+      results
+        .shift()
+        .matches.forEach((match: any) => suggestions.push(match.value))
+    }
+
+    return suggestions
+  }
+}
