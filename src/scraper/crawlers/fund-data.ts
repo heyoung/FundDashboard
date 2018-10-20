@@ -40,7 +40,7 @@ class FundDataCrawler {
   private async getCumulativeReturn(
     secid: string
   ): Promise<{ returns: { EndDate: string; Value: string }[] }> {
-    const uri = `https://lt.morningstar.com/api/rest.svc/timeseries_cumulativereturn/9vehuxllxs?currencyId=GBP&endDate=2018-08-31&frequency=monthly&id=${secid}&idType=Morningstar&outputType=json&restructureDateOptions=ignore&startDate=1900-01-01`
+    const uri = `https://lt.morningstar.com/api/rest.svc/timeseries_cumulativereturn/9vehuxllxs?currencyId=GBP&endDate=2018-08-31&frequency=weekly&id=${secid}&idType=Morningstar&outputType=json&restructureDateOptions=ignore&startDate=1900-01-01`
 
     try {
       const response = await request.get(uri, { json: true })

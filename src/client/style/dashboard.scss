@@ -40,8 +40,8 @@ body {
 .body {
   height: 80vh;
   padding: 10px;
-  margin-left: 10vw;
-  margin-right: 10vw;
+  margin-left: 5vw;
+  margin-right: 5vw;
 }
 
 .search {
@@ -67,6 +67,24 @@ body {
 .graph__title {
   color: #50514f;
   font-size: 16pt;
+}
+
+.graph__chart {
+  height: 100%;
+  width: 100%;
+}
+
+.yaxis {
+  font-size: medium;
+}
+
+#zeroLine {
+  stroke: gray;
+  stroke-dasharray: 2;
+}
+
+.xaxis {
+  font-size: medium;
 }
 
 .graph-tooltip {
