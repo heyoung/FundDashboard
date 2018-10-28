@@ -1,9 +1,9 @@
 /* tslint:disable:no-shadowed-variable */
 
-import classNames from 'classnames'
 import * as d3 from 'd3'
 import { select } from 'd3-selection'
 import * as React from 'react'
+import ReactDOM from 'react-dom'
 import { FundData } from '../../../data/fund-data'
 
 interface GraphState {
@@ -102,7 +102,6 @@ export default class Graph extends React.Component<GraphProps, GraphState> {
       data,
       (d: GraphData) => new Date(d.date)
     )
-
     const yExtent: any = d3.extent<GraphData, number>(
       data,
       (d: GraphData) => d.value
@@ -150,6 +149,13 @@ export default class Graph extends React.Component<GraphProps, GraphState> {
             .attr('font-weight', 'bold')
         )
 
+    const toolTip = select(node)
+      .append('g')
+      .attr('class', 'toolTip')
+      .style('display', 'none')
+
+    const toolTipNode: any = toolTip.node()
+
     const line = d3
       .line<GraphData>()
       .defined(d => !isNaN(d.value))
@@ -191,6 +197,35 @@ export default class Graph extends React.Component<GraphProps, GraphState> {
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round')
       .attr('d', line)
+      .on('mouseover', () => {
+        toolTip.style('display', null)
+      })
+      .on('mouseout', () => {
+        toolTip.style('display', 'none')
+      })
+      .on('mousemove', mousemove)
+
+    const bisectDate = d3.bisector<GraphData, any>(d => d.date).left
+
+    function mousemove() {
+      const x0: Date = x.invert(d3.event.offsetX)
+
+      const i: number = bisectDate(data, x0, 1)
+
+      const d0: GraphData = data[i - 1]
+      const d1: GraphData = data[i]
+
+      const d: GraphData = +x0 - +d0.date > +d1.date - +x0 ? d1 : d0
+
+      ReactDOM.render<React.StatelessComponent>(
+        <Tooltip date={d.date} value={d.value} />,
+        toolTipNode
+      )
+      toolTip.attr(
+        'transform',
+        'translate(' + x(d.date) + ',' + y(d.value) + ')'
+      )
+    }
   }
 
   private getValues(data: FundData[]): GraphData[] {
@@ -202,26 +237,29 @@ export default class Graph extends React.Component<GraphProps, GraphState> {
   }
 }
 
-const TooltipContent: React.StatelessComponent<any> = props => {
-  if (!props.payload || !props.payload.length) return <div />
-
-  const value = props.payload[0].value.toFixed(2)
-  const valueClasses = classNames({
-    'graph-tooltip__value': true,
-    'neg-return': value < 0,
-    'pos-return': value > 0
-  })
+const Tooltip: React.StatelessComponent<{
+  date: Date
+  value: number
+}> = props => {
+  const width = 100
+  const height = 100
 
   return (
-    <div className="graph-tooltip">
-      <div className="graph-tooltip__date">
-        {new Date(props.label).toLocaleDateString('en-UK')}
-      </div>
-      <div className={valueClasses}>
-        {value}
-        {props.payload[0].unit}
-      </div>
-    </div>
+    <g transform={`translate(${-width / 2}, ${20})`}>
+      <rect width={`${width}px`} height={`${height}px`} rx="5" ry="5" />
+      <polygon
+        points="10,0  30,0  20,10"
+        transform={`translate(${width / 2 - 20}) rotate(180, 20, 0)`}
+      />
+      <text transform={'translate(50, 45)'}>
+        <tspan x="0" textAnchor="middle">
+          {props.date.toLocaleDateString('en')}
+        </tspan>
+        <tspan x="0" textAnchor="middle" dy="25">
+          {props.value}
+        </tspan>
+      </text>
+    </g>
   )
 }
 
