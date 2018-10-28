@@ -220,7 +220,13 @@ export default class Graph extends React.Component<GraphProps, GraphState> {
       const d: GraphData = +x0 - +d0.date > +d1.date - +x0 ? d1 : d0
 
       ReactDOM.render<React.StatelessComponent>(
-        <Tooltip date={d.date} value={d.value} />,
+        <Tooltip
+          date={d.date}
+          value={d.value}
+          x={d3.event.offsetX}
+          y={d3.event.offsetY}
+          graphDimensions={{ width, height }}
+        />,
         toolTipNode
       )
       toolTip.attr(
@@ -242,21 +248,41 @@ export default class Graph extends React.Component<GraphProps, GraphState> {
 const Tooltip: React.StatelessComponent<{
   date: Date
   value: number
+  x: number
+  y: number
+  graphDimensions: { width: number; height: number }
 }> = props => {
   const width = 100
   const height = 100
+
+  const arrowHeight = 20
+  const arrowWidth = 20
 
   const value = `${props.value.toFixed(2)}%`
   const valueStyleClass = `graph-tooltip__value-${
     props.value < 0 ? 'negative' : 'positive'
   }`
 
+  // TODO: rotate to side if too close to min/max width of graph to prevent overflow. Tooltip should always be in graph area
+
+  const tooltipTranslationY =
+    props.graphDimensions.height - props.y < height
+      ? -arrowHeight - height
+      : arrowHeight
+
+  const arrowRotation =
+    props.graphDimensions.height - props.y < height ? 0 : 180
+
+  const arrowTranslationY =
+    props.graphDimensions.height - props.y < height ? height : 0
+
   return (
-    <g transform={`translate(${-width / 2}, ${20})`}>
+    <g transform={`translate(${-width / 2}, ${tooltipTranslationY})`}>
       <rect width={`${width}px`} height={`${height}px`} rx="5" ry="5" />
       <polygon
         points="10,0  30,0  20,10"
-        transform={`translate(${width / 2 - 20}) rotate(180, 20, 0)`}
+        transform={`translate(${width / 2 - arrowWidth}, ${arrowTranslationY}) 
+        rotate(${arrowRotation}, 20, 0)`}
       />
       <text transform={'translate(50, 45)'}>
         <tspan className="graph-tooltip__date" x="0" textAnchor="middle">
