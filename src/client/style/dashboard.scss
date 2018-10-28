@@ -90,18 +90,21 @@ body {
 .graph-tooltip {
   border: solid;
   border-width: 1px;
-  border-color: #e5e5e5;
-  background-color: #f2f2f2;
-  padding: 5px;
-}
-
-.toolTip {
-  width: 25px;
-  height: 25px;
+  border-color: black;
+  fill: #f2f2f2;
 }
 
 .graph-tooltip__date {
+  fill: black;
   font-weight: bold;
+}
+
+.graph-tooltip__value-positive {
+  fill: green;
+}
+
+.graph-tooltip__value-negative {
+  fill: red;
 }
 
 .funddata__container {

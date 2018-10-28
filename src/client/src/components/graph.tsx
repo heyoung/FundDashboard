@@ -149,13 +149,6 @@ export default class Graph extends React.Component<GraphProps, GraphState> {
             .attr('font-weight', 'bold')
         )
 
-    const toolTip = select(node)
-      .append('g')
-      .attr('class', 'toolTip')
-      .style('display', 'none')
-
-    const toolTipNode: any = toolTip.node()
-
     const line = d3
       .line<GraphData>()
       .defined(d => !isNaN(d.value))
@@ -188,7 +181,7 @@ export default class Graph extends React.Component<GraphProps, GraphState> {
       .attr('y1', y(0))
       .attr('y2', y(0))
 
-    select(node)
+    const linePlot = select(node)
       .append('path')
       .datum<GraphData[]>(data)
       .attr('fill', 'none')
@@ -197,6 +190,15 @@ export default class Graph extends React.Component<GraphProps, GraphState> {
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round')
       .attr('d', line)
+
+    const toolTip = select(node)
+      .append('g')
+      .attr('class', 'graph-tooltip')
+      .style('display', 'none')
+
+    const toolTipNode: any = toolTip.node()
+
+    linePlot
       .on('mouseover', () => {
         toolTip.style('display', null)
       })
@@ -244,6 +246,11 @@ const Tooltip: React.StatelessComponent<{
   const width = 100
   const height = 100
 
+  const value = `${props.value.toFixed(2)}%`
+  const valueStyleClass = `graph-tooltip__value-${
+    props.value < 0 ? 'negative' : 'positive'
+  }`
+
   return (
     <g transform={`translate(${-width / 2}, ${20})`}>
       <rect width={`${width}px`} height={`${height}px`} rx="5" ry="5" />
@@ -252,11 +259,11 @@ const Tooltip: React.StatelessComponent<{
         transform={`translate(${width / 2 - 20}) rotate(180, 20, 0)`}
       />
       <text transform={'translate(50, 45)'}>
-        <tspan x="0" textAnchor="middle">
+        <tspan className="graph-tooltip__date" x="0" textAnchor="middle">
           {props.date.toLocaleDateString('en')}
         </tspan>
-        <tspan x="0" textAnchor="middle" dy="25">
-          {props.value}
+        <tspan className={valueStyleClass} x="0" textAnchor="middle" dy="25">
+          {value}
         </tspan>
       </text>
     </g>
