@@ -2,6 +2,8 @@
 @import 'lib/react-autosuggest.scss';
 @import '~bootstrap/scss/bootstrap';
 
+$primary-blue: #247ba0;
+
 html,
 body {
   width: 100%;
@@ -11,14 +13,6 @@ body {
 #app {
   width: 100%;
   height: 100%;
-}
-
-.neg-return {
-  color: red;
-}
-
-.pos-return {
-  color: green;
 }
 
 .react-autosuggest__input {
@@ -32,7 +26,7 @@ body {
 }
 
 .header {
-  background-color: #247ba0;
+  background-color: $primary-blue;
   height: 6vh;
   align-items: center;
 }
@@ -107,11 +101,18 @@ body {
   fill: red;
 }
 
-.funddata__container {
-  padding: 20px;
-  background-color: #f7f7f7;
+.funddetail {
+  margin: 10px;
 }
 
-.funddata__title {
-  font-size: 2.5rem;
+.funddetail__title {
+  font-size: 1.5em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.funddetail__remove:hover {
+  color: $primary-blue;
+  cursor: pointer;
 }
