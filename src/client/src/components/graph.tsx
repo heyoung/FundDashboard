@@ -50,6 +50,9 @@ export default class Graph extends React.Component<GraphProps> {
       scales: {
         xAxes: [
           {
+            ticks: {
+              fontSize: 16
+            },
             time: {
               unit: 'month'
             },
@@ -61,7 +64,8 @@ export default class Graph extends React.Component<GraphProps> {
             ticks: {
               callback: (value: string) => {
                 return `${value}%`
-              }
+              },
+              fontSize: 16
             }
           }
         ]
