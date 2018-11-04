@@ -6,14 +6,11 @@ interface Detail {
 }
 
 interface FundDetailProps extends Detail {
-  isLoading: boolean
   onRemoved: (isin: string) => void
 }
 
-interface Props {
+interface Props extends FundDetailProps {
   details: Detail[]
-  isLoading: boolean
-  onRemoved: (isin: string) => void
 }
 
 export default class FundDetails extends React.Component<Props, {}> {
@@ -22,12 +19,7 @@ export default class FundDetails extends React.Component<Props, {}> {
       <div className="fund-details d-flex justify-content-start">
         {this.props.details.map((d: Detail) => {
           return (
-            <FundDetail
-              key={d.isin}
-              {...d}
-              isLoading={this.props.isLoading}
-              onRemoved={this.props.onRemoved}
-            />
+            <FundDetail key={d.isin} {...d} onRemoved={this.props.onRemoved} />
           )
         })}
       </div>
@@ -36,8 +28,6 @@ export default class FundDetails extends React.Component<Props, {}> {
 }
 
 const FundDetail: React.SFC<FundDetailProps> = props => {
-  if (props.isLoading) return null
-
   const onRemoved = () => props.onRemoved(props.isin)
 
   return (
