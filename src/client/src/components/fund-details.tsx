@@ -42,7 +42,9 @@ const FundDetail: React.SFC<FundDetailProps> = props => {
 
   return (
     <div className="funddetail flex-grow-1 d-flex">
-      <div className="funddetail__title flex-grow-1">{props.name}</div>
+      <div className="funddetail__title flex-grow-1 align-self-center">
+        {props.name}
+      </div>
       <i
         className="funddetail__remove fas fa-times flex-shrink-1 align-self-center"
         onClick={onRemoved}
