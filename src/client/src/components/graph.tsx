@@ -28,7 +28,7 @@ export default class Graph extends React.Component<GraphProps> {
           borderWidth: 2,
           data: this.getValues(fundData),
           fill: false,
-          label: fundData.isin,
+          label: fundData.name,
           lineTension: 0.1,
           pointBackgroundColor: '#fff',
           pointBorderColor: 'rgba(75,192,192,1)',
@@ -76,7 +76,25 @@ export default class Graph extends React.Component<GraphProps> {
         text: 'Cumulative Return'
       },
       tooltips: {
-        mode: 'nearest'
+        bodyFontSize: 16,
+        callbacks: {
+          label: (tooltipItem: any, chartData: any) => {
+            let label = chartData.datasets[tooltipItem.datasetIndex].label || ''
+
+            if (label) {
+              label += ': '
+            }
+
+            label += `${tooltipItem.yLabel.toFixed(2)}%`
+
+            return label
+          },
+          title: (tooltipItems: any, chartData: any) => {
+            return new Date(tooltipItems[0].xLabel).toLocaleDateString('en-gb')
+          }
+        },
+        mode: 'nearest',
+        titleFontSize: 16
       }
     }
 

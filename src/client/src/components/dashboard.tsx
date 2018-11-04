@@ -8,7 +8,6 @@ import Search from './search'
 
 /**
  * TODO:
- *  - Redo loading spinner to handle multiple selected funds
  *  - Add unique colour per selcted func. Fund detail and corresponding line plot as same colour.
  *  - Graceful handling api error responses
  */
