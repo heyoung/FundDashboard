@@ -57,7 +57,6 @@ export class Dashboard extends React.Component<{}, DashboardState> {
           <FundDetails
             details={details}
             onRemoved={this.onSelectedFundRemoved}
-            isLoading={this.state.loading}
           />
           <Graph
             data={this.state.selectedFundData}

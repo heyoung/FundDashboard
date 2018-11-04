@@ -49,6 +49,7 @@ export default class Dashboard extends React.Component<
   public render() {
     const suggestionInputProp = {
       onChange: this.onChange,
+      onFocus: this.onFocus,
       placeholder: 'Enter Fund Name',
       value: this.state.searchValue
     }
@@ -77,8 +78,17 @@ export default class Dashboard extends React.Component<
   }
 
   private onChange = (event: React.FormEvent<any>, params: ChangeEvent) => {
+    const isValidFundName = this.props.fundNames.indexOf(params.newValue) > -1
+
     this.setState({ searchValue: params.newValue })
-    this.onSearch(params.newValue)
+
+    if (isValidFundName) {
+      this.onSearch(params.newValue)
+    }
+  }
+
+  private onFocus = (event: React.FormEvent<any>) => {
+    this.setState({ searchValue: '' })
   }
 
   private onSuggestionsFetchRequested = (

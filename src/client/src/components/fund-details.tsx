@@ -9,8 +9,9 @@ interface FundDetailProps extends Detail {
   onRemoved: (isin: string) => void
 }
 
-interface Props extends FundDetailProps {
+interface Props {
   details: Detail[]
+  onRemoved: (isin: string) => void
 }
 
 export default class FundDetails extends React.Component<Props, {}> {
