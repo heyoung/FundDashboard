@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Line } from 'react-chartjs-2'
 import { FundData } from '../../../data/fund-data'
+import ColourProvider from '../modules/ColourProvider'
 
 interface PointData {
   y: number
@@ -8,6 +9,7 @@ interface PointData {
 }
 
 interface GraphProps {
+  colourProvider: ColourProvider
   data: FundData[]
   isLoading: boolean
 }
@@ -18,12 +20,11 @@ export default class Graph extends React.Component<GraphProps> {
 
     const data = {
       datasets: this.props.data.map(fundData => {
+        const colour = this.props.colourProvider.get(fundData.isin)
+
         return {
-          backgroundColor: 'rgba(75,192,192,0.4)',
           borderCapStyle: 'butt',
-          borderColor: 'rgba(75,192,192,1)',
-          borderDash: [],
-          borderDashOffset: 0.0,
+          borderColor: colour,
           borderJoinStyle: 'miter',
           borderWidth: 2,
           data: this.getValues(fundData),
@@ -31,10 +32,10 @@ export default class Graph extends React.Component<GraphProps> {
           label: fundData.name,
           lineTension: 0.1,
           pointBackgroundColor: '#fff',
-          pointBorderColor: 'rgba(75,192,192,1)',
+          pointBorderColor: colour,
           pointBorderWidth: 1,
           pointHitRadius: 10,
-          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+          pointHoverBackgroundColor: colour,
           pointHoverBorderColor: 'rgba(220,220,220,1)',
           pointHoverBorderWidth: 2,
           pointHoverRadius: 5,

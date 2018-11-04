@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 interface Detail {
+  colour: string
   name: string
   isin: string
 }
@@ -32,7 +33,10 @@ const FundDetail: React.SFC<FundDetailProps> = props => {
   const onRemoved = () => props.onRemoved(props.isin)
 
   return (
-    <div className="funddetail flex-grow-1 d-flex">
+    <div
+      className="funddetail flex-grow-1 d-flex"
+      style={{ backgroundColor: props.colour }}
+    >
       <div className="funddetail__title flex-grow-1 align-self-center">
         {props.name}
       </div>

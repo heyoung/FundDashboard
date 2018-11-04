@@ -2,17 +2,18 @@ import debounce from 'lodash.debounce'
 import * as React from 'react'
 import { FundData } from '../../../data/fund-data'
 import Api from '../api'
+import ColourProvider from '../modules/ColourProvider'
 import FundDetails from './fund-details'
 import Graph from './graph'
 import Search from './search'
 
 /**
  * TODO:
- *  - Add unique colour per selcted func. Fund detail and corresponding line plot as same colour.
  *  - Graceful handling api error responses
  */
 
 interface DashboardState {
+  colourProvider: ColourProvider
   funds: string[]
   loading: boolean
   selectedFundData: FundData[]
@@ -27,6 +28,7 @@ export class Dashboard extends React.Component<{}, DashboardState> {
     this.onSelectedFundRemoved.bind(this)
 
     this.state = {
+      colourProvider: new ColourProvider(),
       funds: [],
       loading: false,
       selectedFundData: []
@@ -44,7 +46,11 @@ export class Dashboard extends React.Component<{}, DashboardState> {
 
   public render() {
     const details = this.state.selectedFundData.map(d => {
-      return { name: d.name, isin: d.isin }
+      return {
+        colour: this.state.colourProvider.get(d.isin),
+        isin: d.isin,
+        name: d.name
+      }
     })
 
     return (
@@ -58,6 +64,7 @@ export class Dashboard extends React.Component<{}, DashboardState> {
             onRemoved={this.onSelectedFundRemoved}
           />
           <Graph
+            colourProvider={this.state.colourProvider}
             data={this.state.selectedFundData}
             isLoading={this.state.loading}
           />
