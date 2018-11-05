@@ -51,17 +51,23 @@ export default class Graph extends React.Component<GraphProps> {
       scales: {
         xAxes: [
           {
+            gridLines: {
+              display: false
+            },
             ticks: {
               fontSize: 16
             },
             time: {
-              unit: 'month'
+              unit: 'quarter'
             },
             type: 'time'
           }
         ],
         yAxes: [
           {
+            gridLines: {
+              display: false
+            },
             ticks: {
               callback: (value: string) => {
                 return `${value}%`
