@@ -1,27 +1,45 @@
 export default class ColourProvider {
-  private CANDIDATE_COLOURS = ['#1DADE2', '#cc2529', '#6b4c9a']
+  private readonly BLACK = '#000000'
 
   private lookUp: { [id: string]: string }
-  private currentIndex: number
+  private availableColours: string[]
 
   constructor() {
-    this.currentIndex = 0
     this.lookUp = {}
+    this.availableColours = this.getAvailableColours()
   }
 
   public get(key: string) {
     if (this.lookUp[key]) return this.lookUp[key]
 
-    const colour = this.CANDIDATE_COLOURS[this.currentIndex]
+    if (!this.availableColours.length) {
+      this.availableColours = this.getAvailableColours()
+    }
+
+    let colour = this.availableColours.shift()
+
+    if (!colour) {
+      colour = this.BLACK
+    }
 
     this.lookUp[key] = colour
 
-    if (this.currentIndex === this.CANDIDATE_COLOURS.length - 1) {
-      this.currentIndex = 0
-    } else {
-      this.currentIndex++
+    return colour
+  }
+
+  public remove(key: string) {
+    const colour = this.lookUp[key]
+
+    if (!colour) return
+
+    if (this.availableColours.indexOf(colour) < 0) {
+      this.availableColours.push(colour)
     }
 
-    return colour
+    delete this.lookUp[key]
+  }
+
+  private getAvailableColours(): string[] {
+    return ['#1DADE2', '#cc2529', '#6b4c9a']
   }
 }

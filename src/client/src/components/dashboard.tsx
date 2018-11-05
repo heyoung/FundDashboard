@@ -13,22 +13,23 @@ import Search from './search'
  */
 
 interface DashboardState {
-  colourProvider: ColourProvider
   funds: string[]
   loading: boolean
   selectedFundData: FundData[]
 }
 
 export class Dashboard extends React.Component<{}, DashboardState> {
+  private readonly MAX_NUM_FUNDS_COMPARED: number
+  private readonly colourProvider: ColourProvider
   private onSearch: any
-  private MAX_NUM_FUNDS_COMPARED: number
 
   constructor(props: {}) {
     super(props)
+    this.colourProvider = new ColourProvider()
+
     this.onSelectedFundRemoved.bind(this)
 
     this.state = {
-      colourProvider: new ColourProvider(),
       funds: [],
       loading: false,
       selectedFundData: []
@@ -47,7 +48,7 @@ export class Dashboard extends React.Component<{}, DashboardState> {
   public render() {
     const details = this.state.selectedFundData.map(d => {
       return {
-        colour: this.state.colourProvider.get(d.isin),
+        colour: this.colourProvider.get(d.isin),
         isin: d.isin,
         name: d.name
       }
@@ -64,7 +65,7 @@ export class Dashboard extends React.Component<{}, DashboardState> {
             onRemoved={this.onSelectedFundRemoved}
           />
           <Graph
-            colourProvider={this.state.colourProvider}
+            colourProvider={this.colourProvider}
             data={this.state.selectedFundData}
             isLoading={this.state.loading}
           />
@@ -74,6 +75,7 @@ export class Dashboard extends React.Component<{}, DashboardState> {
   }
 
   private onSelectedFundRemoved = (isin: string) => {
+    this.colourProvider.remove(isin)
     this.setState(state => {
       return {
         selectedFundData: state.selectedFundData.filter(d => d.isin !== isin)
