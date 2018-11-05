@@ -6,6 +6,7 @@
   "scripts": {
     "scraper": "ts-node ./src/scraper/index.ts",
     "server": "yarn webpack --config src/client/webpack/config.dev.js && yarn nodemon",
+    "start": "yarn webpack --config src/client/webpack/config.dev.js && yarn nodemon",
     "watch": "yarn webpack --watch --watch-poll --config src/client/webpack/config.dev.js"
   },
   "repository": {
