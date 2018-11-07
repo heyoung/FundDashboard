@@ -5,6 +5,8 @@ import views from 'koa-views'
 import logger from '../logging/server-logger'
 import apiRouter from './api'
 
+const PORT = process.env.PORT || 3000
+
 const app = new Koa()
 const router = new Router()
 
@@ -20,4 +22,4 @@ router.get('/', async (ctx: Router.IRouterContext) => {
 app.use(router.routes()).use(router.allowedMethods())
 app.use(apiRouter.routes()).use(apiRouter.allowedMethods())
 
-app.listen(3000)
+app.listen(PORT)
