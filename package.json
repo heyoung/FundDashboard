@@ -10,7 +10,9 @@
     "watch-client": "yarn webpack --watch --watch-poll --config src/client/webpack/config.dev.js",
     "watch-server": "yarn tsc -w",
     "server-dev": "yarn run build-dev && cp -a ./src/server/views/. ./build/server/views &&  yarn nodemon",
-    "server-prod": "yarn run build-prod && cp -a ./src/server/views/. ./build/server/views && node ./build/server/server.js"
+    "server-prod": "yarn run build-prod && cp -a ./src/server/views/. ./build/server/views && node ./build/server/server.js",
+    "start": "node ./build/server/server.js",
+    "heroku-postbuild": "yarn run server-prod"
   },
   "repository": {
     "type": "git",
