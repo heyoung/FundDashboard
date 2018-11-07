@@ -13,7 +13,7 @@ app.use(serve(__dirname + '/dist'))
 
 app.use(logger)
 
-router.get('/', async (ctx, next) => {
+router.get('/', async (ctx: Router.IRouterContext) => {
   await ctx.render('dashboard')
 })
 

@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "scraper": "ts-node ./src/scraper/index.ts",
-    "server": "yarn webpack --config src/client/webpack/config.dev.js && yarn nodemon",
-    "start": "yarn webpack --config src/client/webpack/config.dev.js && yarn nodemon",
-    "watch": "yarn webpack --watch --watch-poll --config src/client/webpack/config.dev.js"
+    "build-dev": "yarn tsc && yarn webpack --config src/client/webpack/config.dev.js",
+    "build-prod": "yarn tsc && yarn webpack --config src/client/webpack/config.prod.js",
+    "watch-client": "yarn webpack --watch --watch-poll --config src/client/webpack/config.dev.js",
+    "watch-server": "yarn tsc -w",
+    "server-dev": "yarn run build-dev && cp -a ./src/server/views/. ./build/server/views &&  yarn nodemon",
+    "server-prod": "yarn run build-prod && cp -a ./src/server/views/. ./build/server/views && node ./build/server/server.js"
   },
   "repository": {
     "type": "git",
