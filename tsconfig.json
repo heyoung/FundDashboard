@@ -9,6 +9,7 @@
 
     /* Strict Type-Checking Options */
     "strict": true /* Enable all strict type-checking options. */,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   }
 }

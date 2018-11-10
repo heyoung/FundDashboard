@@ -1,9 +1,9 @@
 import { Db, MongoClient, UpdateWriteOpResult } from 'mongodb'
-import { buildLogger } from '../logging/logger-factory'
-import config from './db.config'
+import { buildLogger } from '../logging/build-logger'
+import { getConnectionUrl } from './connection'
 import { FundData } from './fund-data'
 
-const MONGO_CONNECTION_URL = 'mongodb://localhost:27017/fund-dashboard'
+const MONGO_CONNECTION_URL = getConnectionUrl()
 
 const logger = buildLogger('FundDataManager')
 
@@ -13,17 +13,16 @@ class FundDataManager {
       await MongoClient.connect(
         MONGO_CONNECTION_URL,
         { useNewUrlParser: true }
-      ),
-      config.DB_NAME
+      )
     )
   }
 
   private db: Db
   private client: MongoClient
 
-  constructor(client: MongoClient, db: string) {
-    this.db = client.db(db)
+  constructor(client: MongoClient) {
     this.client = client
+    this.db = client.db()
   }
 
   public close(): Promise<void> {

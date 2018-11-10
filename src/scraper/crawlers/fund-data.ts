@@ -1,7 +1,7 @@
 import request from 'request-promise-native'
 import { Logger } from 'winston'
 import { FundData } from '../../data/fund-data'
-import { buildLogger } from '../../logging/logger-factory'
+import { buildLogger } from '../../logging/build-logger'
 import { FundDataCrawlerException } from '../exceptions'
 
 class FundDataCrawler {

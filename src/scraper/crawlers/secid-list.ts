@@ -1,5 +1,5 @@
 import request from 'request-promise-native'
-import { buildLogger } from '../../logging/logger-factory'
+import { buildLogger } from '../../logging/build-logger'
 
 const ENDPOINT = (isin: string) => {
   return `https://lt.morningstar.com/api/rest.svc/9vehuxllxs/security_details/${isin}?viewId=investmentTypeLookup&idtype=isinmic&languageId=en-GB&currencyId=GBP&responseViewFormat=json`

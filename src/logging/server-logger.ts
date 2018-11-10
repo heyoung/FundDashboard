@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { buildLogger } from './logger-factory'
+import { buildLogger } from './build-logger'
 
 const logger = buildLogger('Server')
 

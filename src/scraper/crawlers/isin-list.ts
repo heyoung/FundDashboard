@@ -1,5 +1,5 @@
 import request from 'request-promise-native'
-import { buildLogger } from '../../logging/logger-factory'
+import { buildLogger } from '../../logging/build-logger'
 
 const ENDPOINT =
   'https://www.fidelity.co.uk/product/securities/service/funds/search-by-substring-with-filters-optimised'

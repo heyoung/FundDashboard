@@ -1,0 +1,5 @@
+{
+  "DB_NAME": "fund-dashboard-dev",
+  "HOST": "localhost",
+  "PORT": "27017"
+}

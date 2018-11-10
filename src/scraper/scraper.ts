@@ -1,5 +1,4 @@
 import { FundDataManager } from '../data/data-manager'
-import { buildLogger } from '../logging/logger-factory'
 import { FundDataCrawler } from './crawlers/fund-data'
 import { FundProviderCrawler } from './crawlers/fund-provider'
 import { IsinListCrawler } from './crawlers/isin-list'
