@@ -3,9 +3,11 @@ import { buildLogger } from '../logging/build-logger'
 import { getConnectionUrl } from './connection'
 import { FundData } from './fund-data'
 
+const logger = buildLogger('FundDataManager')
+
 const MONGO_CONNECTION_URL = getConnectionUrl()
 
-const logger = buildLogger('FundDataManager')
+logger.info(`Connecting to mongo at: ${MONGO_CONNECTION_URL}`)
 
 class FundDataManager {
   public static async build(): Promise<FundDataManager> {
