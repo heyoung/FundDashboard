@@ -18,8 +18,11 @@ class FundDataCrawler {
     }
 
     try {
-      const cumReturn = await this.getCumulativeReturn(secid)
-      const details = await this.getDetails(secid)
+      const cumReturnPromise = this.getCumulativeReturn(secid)
+      const detailsPromise = this.getDetails(secid)
+
+      const cumReturn = await cumReturnPromise
+      const details = await detailsPromise
 
       this.logger.info(`Getting fund data for secid: ${secid}`)
 
@@ -39,8 +42,9 @@ class FundDataCrawler {
 
   private async getCumulativeReturn(
     secid: string
-  ): Promise<{ returns: { EndDate: string; Value: string }[] }> {
-    const uri = `https://lt.morningstar.com/api/rest.svc/timeseries_cumulativereturn/9vehuxllxs?currencyId=GBP&endDate=2018-08-31&frequency=weekly&id=${secid}&idType=Morningstar&outputType=json&restructureDateOptions=ignore&startDate=1900-01-01`
+  ): Promise<{ returns: Array<{ EndDate: string; Value: string }> }> {
+    const date = new Date().toISOString().slice(0, 10)
+    const uri = `https://lt.morningstar.com/api/rest.svc/timeseries_cumulativereturn/9vehuxllxs?currencyId=GBP&endDate=${date}&frequency=weekly&id=${secid}&idType=Morningstar&outputType=json&restructureDateOptions=ignore&startDate=1900-01-01`
 
     try {
       const response = await request.get(uri, { json: true })
@@ -51,7 +55,9 @@ class FundDataCrawler {
             .HistoryDetail
       }
     } catch (e) {
-      this.logger.error(`Error getting cumulative return for secid: ${secid}`)
+      this.logger.error(
+        `Error getting cumulative return for secid: ${secid}. ${e}`
+      )
       throw new FundDataCrawlerException()
     }
   }
@@ -63,7 +69,7 @@ class FundDataCrawler {
     const uri = `https://lt.morningstar.com/api/rest.svc/9vehuxllxs/securities_details?ids=${secid}&idType=msid&viewIds=CompareAdditional&currencyId=GBP&languageId=en-GB&responseViewFormat=json`
 
     try {
-      const response = await request.get(uri, { json: true })
+      const response = await request.get(uri, { json: true, gzip: true })
 
       if (!response.length) {
         this.logger.error(`Fund details not found for secid: ${secid}`)
@@ -74,7 +80,7 @@ class FundDataCrawler {
 
       return { name: details.Name, isin: details.Isin }
     } catch (e) {
-      this.logger.error(`Error getting details for secid: ${secid}`)
+      this.logger.error(`Error getting details for secid: ${secid}. ${e}`)
       throw new FundDataCrawlerException()
     }
   }

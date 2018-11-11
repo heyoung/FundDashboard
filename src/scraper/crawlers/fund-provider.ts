@@ -16,7 +16,9 @@ class FundProviderCrawler {
     }
 
     const filters = response.FundFilters.filters
-    const nameFilter = filters.find((filter: any) => filter.id === 'NAME')
+    const nameFilter = filters.find(
+      (filter: { id: string }) => filter.id === 'NAME'
+    )
 
     if (!nameFilter) {
       logger.error('Cannot get fund providers')
@@ -26,7 +28,7 @@ class FundProviderCrawler {
     logger.info(`Getting fund providers`)
 
     const providers = nameFilter.categories.map(
-      (category: any) => category.name
+      (category: { name: string }) => category.name
     )
 
     logger.info(`Retrieved ${providers.length} providers`)

@@ -1,7 +1,7 @@
 import { FundDataManager } from '../data/data-manager'
 import { buildLogger } from '../logging/build-logger'
 import { Scraper } from './scraper'
-; (async function main() {
+;(async function main() {
   const logger = buildLogger('Scraper')
   const manager: FundDataManager = await FundDataManager.build()
 
@@ -9,8 +9,8 @@ import { Scraper } from './scraper'
 
   logger.info('=== STARTING SCRAPE ===')
 
-  await scraper.scrape()
-  await manager.close()
-
-  logger.info('=== FINISHED SCRAPE ===')
+  scraper
+    .scrape()
+    .then(() => manager.close())
+    .then(() => logger.info('=== FINISHED SCRAPE ==='))
 })()

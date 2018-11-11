@@ -24,36 +24,37 @@ class Scraper {
   public async scrape() {
     const fundProviders = await this.fundProviderCrawler.getFundProviders()
 
-    const pendingPromises: Promise<any>[] = []
+    const pendingPromises = []
 
     for (const provider of fundProviders) {
+      const isins = await this.isinListCrawler.getFunds(provider)
+
       await this.sleep(2000)
-      pendingPromises.push(
-        this.isinListCrawler
-          .getFunds(provider)
-          .then(async (isins: string[]) => {
-            for (const isin of isins) {
-              await this.sleep(1000)
-              this.secidListCrawler
-                .getSecid(isin)
-                .then(async (secid: string) => {
-                  await this.sleep(1000)
-                  this.fundDataCrawler.getFundData(secid).then(fundata => {
-                    if (
-                      fundata.secId &&
-                      fundata.returns.length &&
-                      fundata.isin
-                    ) {
-                      this.fundDataManager.save(fundata)
-                    }
-                  })
-                })
-            }
-          })
-      )
+
+      for (const isin of isins) {
+        pendingPromises.push(this.saveData(isin))
+      }
     }
 
-    await Promise.all(pendingPromises)
+    return Promise.all(pendingPromises)
+  }
+
+  private async saveData(isin: string) {
+    const secId = await this.secidListCrawler.getSecid(isin)
+
+    await this.sleep(5000)
+
+    if (!secId.length) {
+      return
+    }
+
+    const data = await this.fundDataCrawler.getFundData(secId)
+
+    if (data.secId && data.isin && data.returns.length) {
+      await this.fundDataManager.save(data)
+    }
+
+    return
   }
 
   private sleep(ms: number) {

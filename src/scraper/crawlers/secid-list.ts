@@ -18,7 +18,8 @@ class SecidListCrawler {
     try {
       response = await request.get(ENDPOINT(isin), { json: true })
     } catch (e) {
-      logger.error(`Error getting secid for ISIN: ${isin}`)
+      logger.error(`Error getting secid for ISIN: ${isin}. ${e}`)
+
       return ''
     }
 
